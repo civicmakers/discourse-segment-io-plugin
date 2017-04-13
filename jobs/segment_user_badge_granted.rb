@@ -12,6 +12,7 @@ module Jobs
           name: badge.name
         }
       )
+      segment.flush
     end
   end
 end

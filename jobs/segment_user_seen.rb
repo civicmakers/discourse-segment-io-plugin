@@ -17,11 +17,11 @@ module Jobs
           ip: user.ip_address
         }
       )
-
       segment.track(
         user_id: user.id,
         event: 'User Seen'
       )
+      segment.flush
     end
   end
 end

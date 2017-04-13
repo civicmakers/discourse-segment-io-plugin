@@ -14,6 +14,7 @@ module Jobs
           url: topic.url
         }
       )
+      segment.flush
     end
   end
 end
