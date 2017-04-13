@@ -4,29 +4,29 @@ module DiscourseSegment
 
     config.after_initialize do
 
-    require_dependency 'application_controller'
-    class ::ApplicationController
-      before_filter :emit_segment_user_tracker
-      def emit_segment_user_tracker
-        if current_user && !segment_common_controller_actions?
-          # Analytics.page(
-          #   user_id: current_user.id,
-          #   name: "#{controller_name}##{action_name}",
-          #   properties: {
-          #     url: request.original_url
-          #   },
-          #   context: {
-          #     ip: request.ip,
-          #     userAgent: request.user_agent
-          #   }
-          # )
-        end
-      end
+      # require_dependency 'application_controller'
+      # class ::ApplicationController
+      #   before_filter :emit_segment_user_tracker
+      #   def emit_segment_user_tracker
+      #     if current_user && !segment_common_controller_actions?
+      #       # Analytics.page(
+      #       #   user_id: current_user.id,
+      #       #   name: "#{controller_name}##{action_name}",
+      #       #   properties: {
+      #       #     url: request.original_url
+      #       #   },
+      #       #   context: {
+      #       #     ip: request.ip,
+      #       #     userAgent: request.user_agent
+      #       #   }
+      #       # )
+      #     end
+      #   end
 
-      def segment_common_controller_actions?
-        controller_name == 'stylesheets' || controller_name == 'user_avatars' || (controller_name == 'about' && action_name == 'live_post_counts')
-      end
-    end
+      #   def segment_common_controller_actions?
+      #     controller_name == 'stylesheets' || controller_name == 'user_avatars' || (controller_name == 'about' && action_name == 'live_post_counts')
+      #   end
+      # end
 
     end
 
@@ -46,10 +46,10 @@ DiscourseEvent.on(:user_created) do |user|
 end
 
 DiscourseEvent.on(:post_edited) do |post, topic_changed|
-  Jobs.enqueue(:segment_after_edit_post, {post_id: post.id, user_id: current_user.id })
+  Jobs.enqueue(:segment_after_edit_post, {post_id: post.id, user_id: post.acting_user.id })
 
   if topic_changed
-    Jobs.enqueue(:segment_after_edit_topic, {post_id: post.id, user_id: current_user.id }) 
+    Jobs.enqueue(:segment_after_edit_topic, {post_id: post.id, user_id: post.acting_user.id }) 
   end   
 end
 
