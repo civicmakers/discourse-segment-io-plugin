@@ -1,0 +1,4 @@
+en:
+  site_settings:
+    segment_io_enabled: 'Enable tracking via Segment.io.'
+    segment_io_key: 'WriteKey from Segment.io.'

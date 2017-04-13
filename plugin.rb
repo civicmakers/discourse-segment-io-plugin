@@ -8,15 +8,11 @@ gem 'analytics-ruby', '2.2.2', require: false # 'segment/analytics'
 
 after_initialize do
   require 'segment/analytics'
-
-  SEGMENT_IO_KEY = ENV['SEGMENT_IO_KEY']
-  unless SEGMENT_IO_KEY
-    raise StandardError, 'Segment.io WriteKey must be defined as an environment variable  `export SEGMENT_IO_KEY={YOUR_KEY_HERE}`'
-  end
-  Analytics = Segment::Analytics.new(
-    write_key: SEGMENT_IO_KEY,
-    on_error: proc { |_status, msg| print msg }
-  )
+  
+  # Analytics = Segment::Analytics.new(
+  #   write_key: SEGMENT_IO_KEY,
+  #   on_error: proc { |_status, msg| print msg }
+  # )
 
   require_dependency 'jobs/base'
   module ::Jobs
