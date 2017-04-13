@@ -4,10 +4,10 @@ module Jobs
   class SegmentAfterEditTopic < Jobs::Base
     def execute(args)
       segment = DiscourseSegment::Common.connect
-      topic = Topic.find_by(id: args[:topic_id])
+      topic = Post.find_by(id: args[:post_id]).topic
       segment.track(
         user_id: args[:user_id],
-        event: 'Topic Created',
+        event: 'Topic Edited',
         properties: {
           slug: topic.slug,
           title: topic.title,
