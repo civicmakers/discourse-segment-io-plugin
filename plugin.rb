@@ -14,6 +14,9 @@ after_initialize do
   load File.expand_path('../jobs/segment_after_create_user.rb', __FILE__)
   load File.expand_path('../jobs/segment_after_edit_post.rb', __FILE__)
   load File.expand_path('../jobs/segment_after_edit_topic.rb', __FILE__)
+  load File.expand_path('../jobs/segment_user_badge_granted.rb', __FILE__)
+  load File.expand_path('../jobs/segment_user_badge_removed.rb', __FILE__)
+  load File.expand_path('../jobs/segment_user_seen.rb', __FILE__)
 
   load File.expand_path('../lib/discourse_segment/engine.rb', __FILE__)
 
