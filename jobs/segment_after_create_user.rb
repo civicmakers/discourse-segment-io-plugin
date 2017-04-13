@@ -11,6 +11,7 @@ module Jobs
           name: user.name,
           username: user.username,
           email: user.email,
+          org_type: "placeholder",
           created_at: user.created_at
         },
         context: {
