@@ -16,11 +16,26 @@ after_initialize do
   load File.expand_path('../jobs/segment_after_destroy_bookmark.rb', __FILE__)
   load File.expand_path('../jobs/segment_after_edit_post.rb', __FILE__)
   load File.expand_path('../jobs/segment_after_edit_topic.rb', __FILE__)
+  load File.expand_path('../jobs/segment_pageviews.rb', __FILE__)
   load File.expand_path('../jobs/segment_share_dialog.rb', __FILE__)
   load File.expand_path('../jobs/segment_user_badge_granted.rb', __FILE__)
   load File.expand_path('../jobs/segment_user_badge_removed.rb', __FILE__)
   load File.expand_path('../jobs/segment_user_logged_out.rb', __FILE__)
   load File.expand_path('../jobs/segment_user_seen.rb', __FILE__)
+
+  require_dependency 'application_controller'
+  class ::ApplicationController
+    before_filter :emit_segment_user_tracker
+    def emit_segment_user_tracker
+      if current_user && !segment_common_controller_actions?
+        Jobs.enqueue(:segment_pageviews, {user_id: current_user.id, controller: controller_name, action: action_name, original_url: request.original_url, ip: request.ip, user_agent: request.user_agent})
+      end
+    end
+
+    def segment_common_controller_actions?
+      controller_name == 'stylesheets' || controller_name == 'user_avatars' || (controller_name == 'about' && action_name == 'live_post_counts')
+    end
+  end
 
   require_dependency 'user_action'
   class ::UserAction
