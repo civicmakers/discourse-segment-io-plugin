@@ -2,8 +2,6 @@ module DiscourseSegment
   class Engine < ::Rails::Engine
     isolate_namespace DiscourseSegment
 
-    config.after_initialize do
-
       # require_dependency 'application_controller'
       # class ::ApplicationController
       #   before_filter :emit_segment_user_tracker
@@ -28,9 +26,18 @@ module DiscourseSegment
       #   end
       # end
 
-    end
 
   end
+end
+
+require File.expand_path(File.dirname(__FILE__) + '../../../app/controllers/discourse_segment/tracking_controller')
+
+DiscourseSegment::Engine.routes.draw do
+  post "/track-share" => "tracking#track_share"
+end
+
+Discourse::Application.routes.append do
+  mount ::DiscourseSegment::Engine, at: "/segment-io"
 end
 
 DiscourseEvent.on(:post_created) do |post, _, user|

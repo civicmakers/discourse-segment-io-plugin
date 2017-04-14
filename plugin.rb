@@ -16,6 +16,7 @@ after_initialize do
   load File.expand_path('../jobs/segment_after_destroy_bookmark.rb', __FILE__)
   load File.expand_path('../jobs/segment_after_edit_post.rb', __FILE__)
   load File.expand_path('../jobs/segment_after_edit_topic.rb', __FILE__)
+  load File.expand_path('../jobs/segment_share_dialog.rb', __FILE__)
   load File.expand_path('../jobs/segment_user_badge_granted.rb', __FILE__)
   load File.expand_path('../jobs/segment_user_badge_removed.rb', __FILE__)
   load File.expand_path('../jobs/segment_user_logged_out.rb', __FILE__)
