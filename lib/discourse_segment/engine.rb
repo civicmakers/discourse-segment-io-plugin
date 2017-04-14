@@ -61,6 +61,10 @@ DiscourseEvent.on(:user_badge_removed) do |badge_id, user_id|
   Jobs.enqueue(:segment_user_badge_removed, {badge_id: badge_id, user_id: user_id })
 end
 
+DiscourseEvent.on(:user_logged_out) do |user|
+  Jobs.enqueue(:segment_user_logged_out, {user_id: user.id })
+end
+
 DiscourseEvent.on(:user_seen) do |user|
   Jobs.enqueue(:segment_user_seen, {user_id: user.id })
 end
