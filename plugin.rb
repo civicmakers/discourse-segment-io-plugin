@@ -28,7 +28,15 @@ after_initialize do
     before_filter :emit_segment_user_tracker
     def emit_segment_user_tracker
       if current_user && !segment_common_controller_actions?
-        Jobs.enqueue(:segment_pageviews, {user_id: current_user.id, controller: controller_name, action: action_name, original_url: request.original_url, ip: request.ip, user_agent: request.user_agent})
+        Jobs.enqueue(:segment_pageviews, {
+          user_id: current_user.id, 
+          controller: controller_name, 
+          action: action_name, 
+          original_url: request.original_url, 
+          ip: request.ip, 
+          user_agent: request.user_agent,
+          params: params
+          })
       end
     end
 

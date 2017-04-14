@@ -27,7 +27,7 @@ module Jobs
           category: category,
           subcategory: subcategory,
           userTags: tags,
-          postedBy: args[:user_id]
+          postedBy: topic.user_id
         }
       )
       segment.flush
