@@ -10,7 +10,7 @@ module Jobs
       if path == "/" || action_name == SiteSetting.top_menu.split("|")[0]
         segment.page(
           user_id: args[:user_id],
-          name: "Viewed Home Page",
+          name: "Home",
           properties: {
             url: path,
             tab: action_name
@@ -21,10 +21,10 @@ module Jobs
           }
         )
       elsif path =~ /^\/latest/ && controller_name == "list" && action_name == "latest"
-        page_name = "Viewed Latest Page"
+        page_name = "Latest Page"
         segment.page(
           user_id: args[:user_id],
-          name: "Viewed Latest Page",
+          name: "Latest",
           properties: {
             url: path,
             tab: action_name
@@ -37,7 +37,7 @@ module Jobs
       elsif path =~ /^\/top/ && controller_name == "list" && action_name == "top"
         segment.page(
           user_id: args[:user_id],
-          name: "Viewed Top Page",
+          name: "Top",
           properties: {
             url: path,
             tab: action_name
@@ -50,7 +50,7 @@ module Jobs
       elsif path =~ /^\/unread/ && controller_name == "list" && action_name == "unread"
         segment.page(
           user_id: args[:user_id],
-          name: "Viewed Unread Page",
+          name: "Unread",
           properties: {
             url: path,
             tab: action_name
@@ -63,7 +63,7 @@ module Jobs
       elsif path =~ /^\/new/ && controller_name == "list" && action_name == "new"
         segment.page(
           user_id: args[:user_id],
-          name: "Viewed New Page",
+          name: "New",
           properties: {
             url: path,
             tab: action_name
@@ -76,7 +76,7 @@ module Jobs
       elsif path =~ /^\/categories/ && controller_name == "categories" && action_name == "index"
         segment.page(
           user_id: args[:user_id],
-          name: "Viewed Categories Index",
+          name: "Categories",
           properties: {
             url: path
           },
@@ -90,7 +90,7 @@ module Jobs
         if category.parent_category_id
           segment.page(
             user_id: args[:user_id],
-            name: "Viewed Subcategory Page",
+            name: "Subcategory",
             properties: {
               url: path,
               category_id: category.parent_category_id,
@@ -107,7 +107,7 @@ module Jobs
         else
           segment.page(
             user_id: args[:user_id],
-            name: "Viewed Category Page",
+            name: "Category",
             properties: {
               url: path,
               category_id: category.id,
@@ -140,7 +140,7 @@ module Jobs
         tags = tags[0...-1]
         segment.page(
           user_id: args[:user_id],
-          name: "Viewed Topic Page",
+          name: "Topic",
           properties: {
             slug: topic.slug,
             title: topic.title,
@@ -160,7 +160,7 @@ module Jobs
       elsif path =~ /^\/u/ && path =~ /\/preferences$/
         segment.page(
           user_id: args[:user_id],
-          name: "Viewed User Preferences",
+          name: "Preferences",
           properties: {
             url: path,
             tab: action_name
