@@ -7,7 +7,7 @@ module Jobs
       controller_name = args[:controller]
       action_name = args[:action]
       path = URI.parse(args[:original_url]).path
-      if path == "/" && controller_name == "list"
+      if path == "/" || action_name == SiteSetting.top_menu.split("|")[0]
         segment.page(
           user_id: args[:user_id],
           name: "Viewed Home Page",
