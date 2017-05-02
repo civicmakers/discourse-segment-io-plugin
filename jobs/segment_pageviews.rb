@@ -170,18 +170,6 @@ module Jobs
             userAgent: args[:user_agent]
           }
         )
-      else
-        segment.page(
-          user_id: args[:user_id],
-          name: "#{controller_name}##{action_name}",
-          properties: {
-            url: args[:original_url]
-          },
-          context: {
-            ip: args[:ip],
-            userAgent: args[:user_agent]
-          }
-        )
       end
       segment.flush
     end
