@@ -7,10 +7,14 @@ module Jobs
       post = Post.find_by(id: args[:post_id])
       if post.topic.category.parent_category_id.nil?
         category = post.topic.category.id
+        category_name = post.topic.category.name
         subcategory = nil
+        subcategory_name = nil
       else
         category = post.topic.category.parent_category_id
+        category_name = Category.find_by(id: category).name
         subcategory = post.topic.category.id
+        subcategory_name = post.topic.category.name
       end
       tags = ""
       post.topic.topic_tags.each do |tag|
@@ -24,8 +28,10 @@ module Jobs
           slug: post.topic.slug,
           title: post.topic.title,
           url: post.topic.url,
-          category: category,
-          subcategory: subcategory,
+          category_id: category,
+          category_name: category_name,
+          subcategory_id: subcategory,
+          subcategory_name: subcategory_name,
           userTags: tags
         }
       )

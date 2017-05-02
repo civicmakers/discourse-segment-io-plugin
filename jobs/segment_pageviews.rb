@@ -93,8 +93,10 @@ module Jobs
             name: "Viewed Subcategory Page",
             properties: {
               url: path,
-              category: category.parent_category_id,
-              subcategory: category.id,
+              category_id: category.parent_category_id,
+              category_name: Category.find_by(id: category.parent_category_id).name,
+              subcategory_id: category.id,
+              subcategory_name: category.name,
               tab: action_name
             },
             context: {
@@ -108,7 +110,8 @@ module Jobs
             name: "Viewed Category Page",
             properties: {
               url: path,
-              category: category.id,
+              category_id: category.id,
+              category_name: category.name,
               tab: action_name
             },
             context: {
@@ -120,12 +123,16 @@ module Jobs
       elsif path =~ /^\/t/ && controller_name == "topics" && action_name == "show"
         topic = Topic.find_by(id: args[:params][:id])
         if topic.category.parent_category_id.nil?
-          category = topic.category.id
-          subcategory = nil
-        else
-          category = topic.category.parent_category_id
-          subcategory = topic.category.id
-        end
+        category = topic.category.id
+        category_name = topic.category.name
+        subcategory = nil
+        subcategory_name = nil
+      else
+        category = topic.category.parent_category_id
+        category_name = Category.find_by(id: category).name
+        subcategory = topic.category.id
+        subcategory_name = topic.category.name
+      end
         tags = ""
         topic.topic_tags.each do |tag|
           tags = "#{tags}#{tag.tag_id}|"
@@ -138,8 +145,10 @@ module Jobs
             slug: topic.slug,
             title: topic.title,
             url: topic.url,
-            category: category,
-            subcategory: subcategory,
+            category_id: category,
+            category_name: category_name,
+            subcategory_id: subcategory,
+            subcategory_name: subcategory_name,
             userTags: tags,
             postedBy: topic.user_id
           },
