@@ -121,7 +121,7 @@ module Jobs
           )
         end
       elsif path =~ /^\/t/ && controller_name == "topics" && action_name == "show"
-        topic = Topic.find_by(id: args[:params][:id])
+        topic = Topic.find_by(id: args[:params][:topic_id])
         if topic.category.parent_category_id.nil?
         category = topic.category.id
         category_name = topic.category.name
