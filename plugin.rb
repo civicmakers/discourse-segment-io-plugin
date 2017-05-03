@@ -32,7 +32,7 @@ after_initialize do
           user_id: current_user.id, 
           controller: controller_name, 
           action: action_name, 
-          original_url: request.original_url, 
+          original_url: request.referrer, 
           ip: request.ip, 
           user_agent: request.user_agent,
           params: params

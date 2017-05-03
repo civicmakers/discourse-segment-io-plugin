@@ -7,7 +7,7 @@ module Jobs
       controller_name = args[:controller]
       action_name = args[:action]
       path = URI.parse(args[:original_url]).path
-      if path == "/" || action_name == SiteSetting.top_menu.split("|")[0]
+      if path == "/"
         segment.page(
           user_id: args[:user_id],
           name: "Home",
@@ -20,7 +20,7 @@ module Jobs
             userAgent: args[:user_agent]
           }
         )
-      elsif path =~ /^\/latest/ && controller_name == "list" && action_name == "latest"
+      elsif path =~ /^\/latest/
         page_name = "Latest Page"
         segment.page(
           user_id: args[:user_id],
@@ -34,7 +34,7 @@ module Jobs
             userAgent: args[:user_agent]
           }
         )
-      elsif path =~ /^\/top/ && controller_name == "list" && action_name == "top"
+      elsif path =~ /^\/top/
         segment.page(
           user_id: args[:user_id],
           name: "Top",
@@ -47,7 +47,7 @@ module Jobs
             userAgent: args[:user_agent]
           }
         )
-      elsif path =~ /^\/unread/ && controller_name == "list" && action_name == "unread"
+      elsif path =~ /^\/unread/
         segment.page(
           user_id: args[:user_id],
           name: "Unread",
@@ -60,7 +60,7 @@ module Jobs
             userAgent: args[:user_agent]
           }
         )
-      elsif path =~ /^\/new/ && controller_name == "list" && action_name == "new"
+      elsif path =~ /^\/new/
         segment.page(
           user_id: args[:user_id],
           name: "New",
@@ -73,7 +73,7 @@ module Jobs
             userAgent: args[:user_agent]
           }
         )
-      elsif path =~ /^\/categories/ && controller_name == "categories" && action_name == "index"
+      elsif path =~ /^\/categories/
         segment.page(
           user_id: args[:user_id],
           name: "Categories",
@@ -163,7 +163,7 @@ module Jobs
             userAgent: args[:user_agent]
           }
         )
-      elsif path =~ /^\/u/ && path =~ /\/preferences$/
+      elsif path =~ /^\/u/ && path =~ /\/preferences$/ && controller_name == "users" && action_name == "show"
         segment.page(
           user_id: args[:user_id],
           name: "Preferences",
