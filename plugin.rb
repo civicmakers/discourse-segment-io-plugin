@@ -16,6 +16,8 @@ after_initialize do
   load File.expand_path('../jobs/segment_after_destroy_bookmark.rb', __FILE__)
   load File.expand_path('../jobs/segment_after_edit_post.rb', __FILE__)
   load File.expand_path('../jobs/segment_after_edit_topic.rb', __FILE__)
+  load File.expand_path('../jobs/segment_after_like_post.rb', __FILE__)
+  load File.expand_path('../jobs/segment_after_unlike_post.rb', __FILE__)
   load File.expand_path('../jobs/segment_pageviews.rb', __FILE__)
   load File.expand_path('../jobs/segment_share_dialog.rb', __FILE__)
   load File.expand_path('../jobs/segment_user_badge_granted.rb', __FILE__)
@@ -50,13 +52,17 @@ after_initialize do
     after_create :segment_after_create_user_action
     after_destroy :segment_after_destroy_user_action
     def segment_after_create_user_action
-      if self.action_type == 3
+      if self.action_type == 1
+        Jobs.enqueue(:segment_after_like_post, {post_id: self.target_post.id, user_id: self.user.id })
+      elsif self.action_type == 3
         Jobs.enqueue(:segment_after_create_bookmark, {post_id: self.target_post.id, user_id: self.user.id })
       end
     end
 
     def segment_after_destroy_user_action
-      if self.action_type == 3
+      if self.action_type == 1
+        Jobs.enqueue(:segment_after_unlike_post, {post_id: self.target_post.id, user_id: self.user.id })
+      elsif self.action_type == 3
         Jobs.enqueue(:segment_after_destroy_bookmark, {post_id: self.target_post.id, user_id: self.user.id })
       end
     end
