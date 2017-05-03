@@ -18,7 +18,8 @@ module Jobs
       end
       tags = ""
       topic.topic_tags.each do |tag|
-        tags = "#{tags}#{tag.tag_id}|"
+        tag_name = Tag.find_by(id: tag.tag_id).name
+        tags = "#{tags}#{tag_name}|"
       end
       tags = tags[0...-1]
       segment.track(

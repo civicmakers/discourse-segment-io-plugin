@@ -121,7 +121,12 @@ module Jobs
           )
         end
       elsif path =~ /^\/t/ && controller_name == "topics" && action_name == "show"
-        topic = Topic.find_by(id: args[:params][:topic_id])
+        if args[:params][:topic_id]
+          topic_id = args[:params][:topic_id]
+        else
+          topic_id = args[:params][:id]
+        end
+        topic = Topic.find_by(id: topic_id)
         if topic.category.parent_category_id.nil?
         category = topic.category.id
         category_name = topic.category.name
@@ -135,7 +140,8 @@ module Jobs
       end
         tags = ""
         topic.topic_tags.each do |tag|
-          tags = "#{tags}#{tag.tag_id}|"
+          tag_name = Tag.find_by(id: tag.tag_id).name
+          tags = "#{tags}#{tag_name}|"
         end
         tags = tags[0...-1]
         segment.page(
