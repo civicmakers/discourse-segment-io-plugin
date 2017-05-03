@@ -41,7 +41,7 @@ after_initialize do
     end
 
     def segment_common_controller_actions?
-      controller_name == 'stylesheets' || controller_name == 'user_avatars' || (controller_name == 'about' && action_name == 'live_post_counts')
+      controller_name == 'stylesheets' || controller_name == 'user_avatars' || (controller_name == 'about' && action_name == 'live_post_counts') || action_name == 'timings' || action_name == 'destroy'
     end
   end
 
