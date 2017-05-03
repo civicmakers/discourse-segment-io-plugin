@@ -5,10 +5,10 @@ module Jobs
     def execute(args)
       segment = DiscourseSegment::Common.connect
       user = User.find_by(id: args[:user_id])
-      user_custom = []
+      user_custom = {}
       user.user_fields.each do |cf|
         user_field = UserField.find_by(id: cf[0].to_i)
-        user_custom.push("#{user_field.name}": cf[1])
+        user_custom["#{user_field.name}"] = cf[1]
       end
       segment.identify(
         user_id: user.id,
