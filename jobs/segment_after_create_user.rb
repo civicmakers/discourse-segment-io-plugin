@@ -25,7 +25,8 @@ module Jobs
       )
       segment.track(
         user_id: user.id,
-        event: 'Signed Up'
+        event: 'Signed Up',
+        properties: traits
       )
       segment.flush
     end
