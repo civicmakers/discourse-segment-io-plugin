@@ -27,7 +27,7 @@ after_initialize do
 
   require_dependency 'application_controller'
   class ::ApplicationController
-    before_filter :emit_segment_user_tracker
+    before_action :emit_segment_user_tracker
     def emit_segment_user_tracker
       if current_user && !segment_common_controller_actions?
         Jobs.enqueue(:segment_pageviews, {
